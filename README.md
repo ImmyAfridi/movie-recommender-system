@@ -1,32 +1,42 @@
 # Movie Recommendation System
 
-A content-based movie recommendation system built with Python and scikit-learn. It recommends movies with similar metadata, including genres, directors, and actors.
+A content-based movie recommendation system built with Python and scikit-learn. It recommends movies similar to a selected title by comparing their genres, directors, and actors.
+
+## Features
+
+- Recommends similar movies based on movie metadata.
+- Uses TF-IDF vectorization and cosine similarity.
+- Supports configurable weights for genres, directors, and actors.
+- Provides a command-line interface for interactive recommendations.
+- Includes automated tests using pytest.
 
 ## How It Works
 
-1. Loads movie metadata from a CSV dataset.
-2. Combines genres, directors, and actors into a text profile for each movie.
-3. Uses TF-IDF to convert text profiles into numerical vectors.
-4. Calculates cosine similarity between movies.
-5. Returns the top 10 most similar movies for a selected title.
+1. **Load data:** Read movie metadata, including titles, genres, directors, and actors.
+2. **Preprocess features:** Handle missing metadata and prepare text features.
+3. **Vectorize text:** Convert genres, directors, and actors into numerical TF-IDF representations.
+4. **Calculate similarity:** Combine the feature matrices using configurable weights and calculate cosine similarity.
+5. **Recommend movies:** Return the most similar movies while excluding the selected movie itself.
 
-## Technologies
+## Technology Stack
 
 - Python
-- Pandas
+- pandas
 - NumPy
-- Scikit-learn
-- TF-IDF and cosine similarity
-- Pytest
-- Git and GitHub
+- scikit-learn
+- SciPy
+- pytest
 
 ## Project Structure
 
 ```text
 movie-recommender-system/
 ├── data/
-│   └── raw/
+│   ├── raw/
+│   └── processed/
+├── models/
 ├── notebooks/
+│   └── movie_recommender.ipynb
 ├── src/
 │   ├── data_loader.py
 │   ├── model.py
@@ -40,7 +50,7 @@ movie-recommender-system/
 
 ## Setup
 
-Clone the repository and enter the project directory:
+Clone the repository:
 
 ```bash
 git clone https://github.com/ImmyAfridi/movie-recommender-system.git
@@ -49,16 +59,18 @@ cd movie-recommender-system
 
 Create and activate a virtual environment on Windows:
 
-```powershell
+```bash
 python -m venv .venv
-.\.venv\Scripts\Activate.ps1
+.venv\Scripts\activate
 ```
 
 Install dependencies:
 
 ```bash
-python -m pip install -r requirements.txt
+pip install -r requirements.txt
 ```
+
+Ensure the dataset is available at `data/raw/movielens_100k.csv`.
 
 ## Run the Application
 
@@ -66,7 +78,7 @@ python -m pip install -r requirements.txt
 python app.py
 ```
 
-Enter a movie title to receive recommendations. Type `quit` to exit.
+Enter a movie title when prompted. Type `quit` to exit.
 
 ## Run Tests
 
@@ -74,13 +86,43 @@ Enter a movie title to receive recommendations. Type `quit` to exit.
 python -m pytest
 ```
 
+## Model Configuration
+
+The model allows independent weighting of genres, directors, and actors. For example:
+
+```python
+_, similarity = build_similarity_model(
+    movies,
+    genre_weight=2,
+    director_weight=1,
+    actor_weight=1,
+)
+```
+
+This configuration gives genres greater influence while retaining director and actor information.
+
+## Evaluation
+
+The model was evaluated using genre overlap for four example movies: *Toy Story*, *Jumanji*, *Titanic*, and *Star Wars*. The selected configuration achieved high genre overlap on these examples.
+
+Genre overlap is a proxy metric, not a complete measure of recommendation quality. Recommendations may share genres without matching a movie's story, themes, or audience preferences.
+
 ## Limitations
 
-This is a content-based recommendation system. It uses movie metadata rather than user ratings or viewing histories, so its recommendations reflect metadata similarity, not demonstrated user preferences.
+- Recommendations depend on available movie metadata.
+- The model does not learn from user ratings, watch history, or preferences.
+- Genre similarity alone cannot capture plot or thematic similarity.
+- Evaluation on four movies is limited and does not establish general performance.
 
 ## Future Improvements
 
-- Improve feature weighting and recommendation quality.
-- Add a web interface.
-- Handle duplicate movie titles more clearly.
-- Add recommendation evaluation methods.
+- Incorporate plot summaries or descriptions.
+- Evaluate recommendations with a larger test set and additional ranking metrics.
+- Add a web interface for easier interaction.
+- Explore collaborative filtering using user-rating data.
+
+## Author
+
+**Imaad Afridi**
+
+GitHub: [ImmyAfridi](https://github.com/ImmyAfridi)
