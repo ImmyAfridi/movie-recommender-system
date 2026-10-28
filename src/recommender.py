@@ -77,5 +77,6 @@ def recommend_movies(
     recommendations["similarity"] = [
         score for idx, score in top_movies
     ]
+    recommendations["title"] = recommendations["title"].str.title()
 
     return recommendations.reset_index(drop=True)

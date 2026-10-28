@@ -36,7 +36,7 @@ def test_returns_most_similar_movie(sample_data):
     )
 
     assert len(result) == 1
-    assert result.iloc[0]["title"] == "jumanji"
+    assert result.iloc[0]["title"] == "Jumanji"
     assert result.iloc[0]["similarity"] == 0.80
 
 
@@ -57,7 +57,7 @@ def test_title_matching_is_case_insensitive(sample_data):
         "TOY STORY", movies, similarity_matrix, top_n=1
     )
 
-    assert result.iloc[0]["title"] == "jumanji"
+    assert result.iloc[0]["title"] == "Jumanji"
 
 
 def test_unknown_title_raises_error(sample_data):
